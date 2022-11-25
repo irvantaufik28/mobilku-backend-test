@@ -18,7 +18,7 @@ describe("USER TEST", () => {
         userUC = new UserUseCase(mockUserReturn)
     })
     describe("Get All User Test", () => {
-        test("should isSuccess = true statusCode = 200, and type data is array", async  () => { 
+        test("should isSuccess = true statusCode = 200, and type data is array", async () => {
             let res = await userUC.getAllUser()
 
             expect(res.isSuccess).toBeTruthy();
@@ -30,20 +30,20 @@ describe("USER TEST", () => {
             expect(res.data[0]).toHaveProperty("pendidikan_terakhir");
             expect(res.data[0]).toHaveProperty("tanggal_lahir");
             expect(res.data[0]).toHaveProperty("url_foto");
-         })
+        })
 
-         test("should isSuccess = true statusCode = 200, and type data is array if data user not available", async  () => { 
+        test("should isSuccess = true statusCode = 200, and type data is array if data user not available", async () => {
             mockUserReturn.getAllUser = jest.fn().mockReturnValue([])
             let res = await userUC.getAllUser()
 
             expect(res.isSuccess).toBeTruthy();
             expect(res.statusCode).toEqual(200);
             expect(res.data).toEqual([])
-         })
+        })
     })
 
     describe("Get User By ID Test", () => {
-        test("should isSuccess = true statusCode = 200, and type data is Object ", async  () => { 
+        test("should isSuccess = true statusCode = 200, and type data is Object ", async () => {
             let res = await userUC.getUserById()
 
             expect(res.isSuccess).toBeTruthy();
@@ -54,9 +54,9 @@ describe("USER TEST", () => {
             expect(res.data).toHaveProperty("pendidikan_terakhir");
             expect(res.data).toHaveProperty("tanggal_lahir");
             expect(res.data).toHaveProperty("url_foto");
-         })
+        })
 
-         test("should isSuccess = true statusCode = 200, and type data is array if data user not available", async  () => { 
+        test("should isSuccess = true statusCode = 200, and type data is array if data user not available", async () => {
             mockUserReturn.getUserById = jest.fn().mockReturnValue(null)
             let res = await userUC.getUserById()
 
@@ -64,11 +64,11 @@ describe("USER TEST", () => {
             expect(res.statusCode).toEqual(404);
             expect(res.reason).toEqual('user not found')
             expect(res.data).toEqual(null)
-         })
+        })
     })
 
     describe("Create User", () => {
-        test("should isSuccess = true statusCode = 200, and type data is Object ", async  () => { 
+        test("should isSuccess = true statusCode = 200, and type data is Object ", async () => {
             let res = await userUC.createUser()
 
             expect(res.isSuccess).toBeTruthy();
@@ -79,12 +79,12 @@ describe("USER TEST", () => {
             expect(res.data).toHaveProperty("pendidikan_terakhir");
             expect(res.data).toHaveProperty("tanggal_lahir");
             expect(res.data).toHaveProperty("url_foto");
-         })
+        })
     })
 
     describe("Update User", () => {
-        test("should isSuccess = true statusCode = 200, and type data is Object ", async  () => { 
-            let res = await userUC.updateUser({nama: "customerUpdate"})
+        test("should isSuccess = true statusCode = 200, and type data is Object ", async () => {
+            let res = await userUC.updateUser({ nama: "customerUpdate" })
 
             expect(res.isSuccess).toBeTruthy();
             expect(res.statusCode).toEqual(200);
@@ -94,6 +94,17 @@ describe("USER TEST", () => {
             expect(res.data).toHaveProperty("pendidikan_terakhir");
             expect(res.data).toHaveProperty("tanggal_lahir");
             expect(res.data).toHaveProperty("url_foto");
-         })
+        })
+
+        test("should isSuccess = false statusCode = 404, user not found ", async () => {
+            mockUserReturn.getUserById = jest.fn().mockReturnValue(null)
+            let res = await userUC.updateUser({ nama: "customerUpdate" })
+
+            expect(res.isSuccess).toBeFalsy();
+            expect(res.statusCode).toEqual(404);
+            expect(res.reason).toEqual('user not found')
+            expect(res.data).toEqual(null)
+        })
     })
+
 })

@@ -5,7 +5,7 @@ class urlFotoUseCase {
     }
 
     
-    async urlFotoCreate(data , file){
+    async urlFotoCreate(data){
         let result = {
             isSuccess: false,
             statusCode: 404,
@@ -13,7 +13,7 @@ class urlFotoUseCase {
             data: null
         }
 
-        if(file === undefined) {
+        if(data.url === undefined) {
             result.reason = 'plesae insert foto';
             return result
         }
@@ -29,18 +29,18 @@ class urlFotoUseCase {
             await this.urlFotoRepository.deleteUrlFoto(verifyUrlFoto.id)
         }
 
-        const urlFoto = await this.userRepository.urlFotoCreate(data , file);
+        const urlFoto = await this.urlFotoRepository.createUrlFoto(data);
 
-        const userUpdateValue = {
-            urlFotoId: urlFoto.id 
+        // const userUpdateValue = {
+        //     urlFotoId: urlFoto.id 
 
-        }
+        // }
         
-        await this.userRepository.updateUser(userUpdateValue, verifyUser.id);
+        // await this.userRepository.updateUser(userUpdateValue, verifyUser.id);
 
         result.isSuccess = true;
         result.statusCode = 200;
-        result.data = userResult
+        result.data = urlFoto
         return result
     }
 }
