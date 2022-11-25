@@ -19,14 +19,16 @@ class mediaUseCase {
     const metadata = await sharp(file.path).metadata();
     const fileType = metadata.format;
 
-    const smallFileName = (Math.random() * (100000 - 1) + 1).toString(36).substring(7) + "." + fileType;
+    const randomString = (Math.random() * (100000 - 1) + 1).toString(36).substring(7);
+
+    const smallFileName = randomString + "." + fileType;
     const smallDestinationPath = path.resolve(file.destination, "", smallFileName);
 
-    const largeFileName = (Math.random() * (100000 - 1) + 1).toString(36).substring(7) + "." + fileType;
+    const largeFileName = randomString + "." + fileType;
     const largeDestinationPath = path.resolve(file.destination, "", largeFileName);
 
-    await sharp(file.path).resize(1000).jpeg({ quality: 90 }).toFile(smallDestinationPath);
-    await sharp(file.path).resize(500).jpeg({ quality: 90 }).toFile(largeDestinationPath);
+    await sharp(file.path).resize(500).jpeg({ quality: 90 }).toFile(smallDestinationPath);
+    await sharp(file.path).resize(1000).jpeg({ quality: 90 }).toFile(largeDestinationPath);
 
     fs.unlinkSync(file.path);
 
