@@ -31,12 +31,13 @@ class urlFotoUseCase {
 
         const urlFoto = await this.urlFotoRepository.createUrlFoto(data);
 
-        // const userUpdateValue = {
-        //     urlFotoId: urlFoto.id 
+        const userUpdateValue = {
+            urlFotoId: urlFoto.id 
 
-        // }
+        }
         
-        // await this.userRepository.updateUser(userUpdateValue, verifyUser.id);
+        await this.userRepository.updateUser(userUpdateValue, verifyUser.id);
+
 
         result.isSuccess = true;
         result.statusCode = 200;

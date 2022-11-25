@@ -13,7 +13,7 @@ const urlFotoRepository = require("../src/repository/urlFoto");
 const userUseCase = require("../src/usecase/user");
 const urlFotoUseCase = require("../src/usecase/urlFoto");
 
-const userUC = new userUseCase(new userRepository());
+const userUC = new userUseCase(new userRepository(), new urlFotoRepository());
 const urlFotoUC = new urlFotoUseCase(new urlFotoRepository(), new userRepository());
 
 app.use((req, res, next) => {

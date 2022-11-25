@@ -1,6 +1,7 @@
 class userUseCase {
-    constructor (userRepository) {
+    constructor (userRepository, urlFotoRepository) {
         this.userRepository = userRepository;
+        this.urlFotoRepository = urlFotoRepository;
     }
 
     async getAllUser(filter){
@@ -29,9 +30,23 @@ class userUseCase {
             result.reason = 'user not found';
             return result;
         }
+
+        const urlFoto = await this.urlFotoRepository.getFotoByUserId(id)
+        const neWuser = {
+            id: userResult.id,
+            name: userResult.name,
+            birth: userResult.birth,
+            age: userResult.age,
+            phone: userResult.phone,
+            city: userResult.city,
+            educationLevel: userResult.educationLevel,
+            urlFotoId:urlFoto.id,
+            urlFoto
+        }
+
         result.isSuccess = true;
         result.statusCode = 200;
-        result.data = userResult
+        result.data = neWuser
         return result
     }
 
@@ -57,11 +72,12 @@ class userUseCase {
             isSuccess: false,
             statusCode: 404,
             reason: null,
-            data: null
+ 
         }
         const getUser = await this.userRepository.getUserById(id)
         if (getUser === null) {
             result.reason = "user not found"
+            return result
         }
 
         await this.userRepository.updateUser(userData, id)
@@ -69,7 +85,6 @@ class userUseCase {
 
         result.isSuccess = true;
         result.statusCode = 200;
-        result.data = userResult
         return result
     }
 
