@@ -10,7 +10,7 @@ module.exports = {
     dialect: process.env.DB_DIALECT,
   },
   production: {
-    use_env_variable:String(process.env.DATABASE_URL),
+    use_env_variable:"postgres://vjnpmutpbwazij:7f04ab8896e9656ab9a6b400d51d89a4bd1d172e1dcb04c67a29c379a89c0479@ec2-34-227-120-79.compute-1.amazonaws.com:5432/ddioo3f9vk2lgg",
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
       ssl: {
