@@ -18,6 +18,20 @@ module.exports = (sequelize, DataTypes) => {
       original: DataTypes.STRING,
       name: DataTypes.STRING,
       mimeType: DataTypes.STRING,
+      smallUrl: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          if (this.small) return `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/uploads/${this.small}`;
+          return null;
+        },
+      },
+      largeUrl: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          if (this.large) return `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}/uploads/${this.large}`;
+          return null;
+        },
+      },
     },
     {
       sequelize,
