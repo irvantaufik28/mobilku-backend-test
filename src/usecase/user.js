@@ -1,7 +1,7 @@
+const { City, Media } = require("../models");
 class userUseCase {
-  constructor(userRepository, urlFotoRepository) {
+  constructor(userRepository) {
     this.userRepository = userRepository;
-    this.urlFotoRepository = urlFotoRepository;
   }
 
   async getAllUser(filter) {
@@ -11,7 +11,19 @@ class userUseCase {
       data: [],
     };
 
-    const userResult = await this.userRepository.getAllUser(filter);
+    const userResult = await this.userRepository.getAllUser({
+      where: filter,
+      include: [
+        {
+          model: City,
+          as: "city",
+        },
+        {
+          model: Media,
+          as: "photo",
+        },
+      ],
+    });
 
     result.data = userResult;
     return result;
@@ -25,28 +37,26 @@ class userUseCase {
       data: null,
     };
 
-    const userResult = await this.userRepository.getUserById(id);
+    const userResult = await this.userRepository.getUserById(id, {
+      include: [
+        {
+          model: City,
+          as: "city",
+        },
+        {
+          model: Media,
+          as: "photo",
+        },
+      ],
+    });
+
     if (userResult === null) {
       result.reason = "user not found";
       return result;
     }
-
-    const urlFoto = await this.urlFotoRepository.getFotoByUserId(id);
-    const neWuser = {
-      id: userResult.id,
-      name: userResult.name,
-      birth: userResult.birth,
-      age: userResult.age,
-      phone: userResult.phone,
-      city: userResult.city,
-      educationLevel: userResult.educationLevel,
-      urlFotoId: urlFoto.id,
-      urlFoto,
-    };
-
     result.isSuccess = true;
     result.statusCode = 200;
-    result.data = neWuser;
+    result.data = userResult;
     return result;
   }
 
@@ -57,10 +67,6 @@ class userUseCase {
       reason: null,
       data: null,
     };
-
-    const getAge = Math.floor(new Date() - new Date(userData.birth).getTime());
-    const newAge = getAge / 31556926000;
-    userData.age = Math.floor(newAge);
 
     const userResult = await this.userRepository.createUser(userData);
 
@@ -75,21 +81,24 @@ class userUseCase {
       isSuccess: false,
       statusCode: 404,
       reason: null,
+      data: null,
     };
     const getUser = await this.userRepository.getUserById(id);
     if (getUser === null) {
       result.reason = "user not found";
-      return result;
     }
 
     await this.userRepository.updateUser(userData, id);
 
+    const updatedUser = await this.userRepository.getUserById(id);
+
     result.isSuccess = true;
     result.statusCode = 200;
+    result.data = updatedUser;
     return result;
   }
 
-  async deleteUser(id) {
+  async deleteUser(userData, id) {
     let result = {
       isSuccess: false,
       statusCode: 404,
@@ -101,16 +110,11 @@ class userUseCase {
       result.reason = "user not found";
     }
 
-    await this.userRepository.deleteUser(id);
+    await this.userRepository.deleteUser(userData, id);
 
     result.isSuccess = true;
     result.statusCode = 200;
-    result.data = userResult;
     return result;
-  }
-
-  async getAge(birthDate) {
-    await Math.floor(new Date() - new Date(birthDate).getTime());
   }
 }
 

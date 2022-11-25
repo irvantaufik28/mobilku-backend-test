@@ -5,15 +5,13 @@ class userRepository {
     this.UserModel = User;
   }
 
-  async getAllUser(filter) {
-    const result = await this.UserModel.findAll(filter);
+  async getAllUser(options) {
+    const result = await this.UserModel.findAll(options);
     return result;
   }
 
-  async getUserById(id) {
-    const result = await this.UserModel.findOne({
-      where: { id },
-    });
+  async getUserById(id, options) {
+    const result = await this.UserModel.findByPk(id, options);
     return result;
   }
 
@@ -27,6 +25,13 @@ class userRepository {
       where: { id },
     });
 
+    return result;
+  }
+
+  async deleteUser(id) {
+    const result = await this.UserModel.destroy({
+      where: { id },
+    });
     return result;
   }
 }
