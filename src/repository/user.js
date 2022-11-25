@@ -29,13 +29,6 @@ class userRepository {
 
         return result
     }
-
-    async deleteUser(id) {
-        const result = await this.UserModel.destroy({
-            where: { id }
-        })
-        return result
-    }
 }
 
 module.exports = userRepository
