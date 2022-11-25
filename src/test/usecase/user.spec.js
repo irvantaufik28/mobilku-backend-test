@@ -1,8 +1,9 @@
 require("dotenv").config();
 const UserUseCase = require('../../usecase/user')
 const mockUser = require('../mock/user.mock')
+const mockUrl = require('../mock/urlFoto.mock')
 
-let mockUserReturn = {}
+let mockUserReturn, mockUrlFotoReturn = {}
 let userUC = null
 
 describe("USER TEST", () => {
@@ -14,8 +15,11 @@ describe("USER TEST", () => {
             updateUser: jest.fn().mockReturnValue(true),
             deletUser: jest.fn().mockReturnValue(true),
         }
+        mockUrlFotoReturn  = {
+            getFotoByUserId: jest.fn().mockReturnValue(mockUrl.urlFoto),
+        }
 
-        userUC = new UserUseCase(mockUserReturn)
+        userUC = new UserUseCase(mockUserReturn, mockUrlFotoReturn)
     })
     describe("Get All User Test", () => {
         test("should isSuccess = true statusCode = 200, and type data is array", async () => {
@@ -24,12 +28,12 @@ describe("USER TEST", () => {
             expect(res.isSuccess).toBeTruthy();
             expect(res.statusCode).toEqual(200);
             expect(Array.isArray(res.data)).toBeTruthy();
-            expect(res.data[0]).toHaveProperty("nama");
-            expect(res.data[0]).toHaveProperty("asal_Kota");
-            expect(res.data[0]).toHaveProperty("no_Whatsapp");
-            expect(res.data[0]).toHaveProperty("pendidikan_terakhir");
-            expect(res.data[0]).toHaveProperty("tanggal_lahir");
-            expect(res.data[0]).toHaveProperty("url_foto");
+            expect(res.data[0]).toHaveProperty("name");
+            expect(res.data[0]).toHaveProperty("city");
+            expect(res.data[0]).toHaveProperty("phone");
+            expect(res.data[0]).toHaveProperty("educationLevel");
+            expect(res.data[0]).toHaveProperty("birth");
+        
         })
 
         test("should isSuccess = true statusCode = 200, and type data is array if data user not available", async () => {
@@ -48,12 +52,12 @@ describe("USER TEST", () => {
 
             expect(res.isSuccess).toBeTruthy();
             expect(res.statusCode).toEqual(200);
-            expect(res.data).toHaveProperty("nama");
-            expect(res.data).toHaveProperty("asal_Kota");
-            expect(res.data).toHaveProperty("no_Whatsapp");
-            expect(res.data).toHaveProperty("pendidikan_terakhir");
-            expect(res.data).toHaveProperty("tanggal_lahir");
-            expect(res.data).toHaveProperty("url_foto");
+            expect(res.data).toHaveProperty("name");
+            expect(res.data).toHaveProperty("city");
+            expect(res.data).toHaveProperty("phone");
+            expect(res.data).toHaveProperty("educationLevel");
+            expect(res.data).toHaveProperty("birth");
+            expect(res.data).toHaveProperty("urlFoto");
         })
 
         test("should isSuccess = true statusCode = 200, and type data is array if data user not available", async () => {
@@ -73,27 +77,21 @@ describe("USER TEST", () => {
 
             expect(res.isSuccess).toBeTruthy();
             expect(res.statusCode).toEqual(200);
-            expect(res.data).toHaveProperty("nama");
-            expect(res.data).toHaveProperty("asal_Kota");
-            expect(res.data).toHaveProperty("no_Whatsapp");
-            expect(res.data).toHaveProperty("pendidikan_terakhir");
-            expect(res.data).toHaveProperty("tanggal_lahir");
-            expect(res.data).toHaveProperty("url_foto");
+            expect(res.data).toHaveProperty("name");
+            expect(res.data).toHaveProperty("city");
+            expect(res.data).toHaveProperty("phone");
+            expect(res.data).toHaveProperty("educationLevel");
+            expect(res.data).toHaveProperty("birth");
+        
         })
     })
 
     describe("Update User", () => {
         test("should isSuccess = true statusCode = 200, and type data is Object ", async () => {
-            let res = await userUC.updateUser({ nama: "customerUpdate" })
+            let res = await userUC.updateUser(1 ,{ nama: "customerUpdate" })
 
             expect(res.isSuccess).toBeTruthy();
             expect(res.statusCode).toEqual(200);
-            expect(res.data).toHaveProperty("nama");
-            expect(res.data).toHaveProperty("asal_Kota");
-            expect(res.data).toHaveProperty("no_Whatsapp");
-            expect(res.data).toHaveProperty("pendidikan_terakhir");
-            expect(res.data).toHaveProperty("tanggal_lahir");
-            expect(res.data).toHaveProperty("url_foto");
         })
 
         test("should isSuccess = false statusCode = 404, user not found ", async () => {
@@ -103,7 +101,6 @@ describe("USER TEST", () => {
             expect(res.isSuccess).toBeFalsy();
             expect(res.statusCode).toEqual(404);
             expect(res.reason).toEqual('user not found')
-            expect(res.data).toEqual(null)
         })
     })
 
