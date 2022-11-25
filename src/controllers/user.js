@@ -29,13 +29,13 @@ module.exports = {
     createUser: async (req, res, next) => {
         try {
             let userData = {
-                nama: req.body.nama,
-                tanggal_lahir: new Date(req.body.tanggal_lahir),
-                usia: null,
-                no_Whatsapp: req.body.no_Whatsapp,
-                asal_Kota: req.body.asal_Kota,
-                pendidikan_terakhir: req.body.pendidikan_terakhir,
-                url_FotoId: null,
+                name: req.body.name,
+                birth: new Date(req.body.birth),
+                age: null,
+                phone: req.body.phone,
+                city: req.body.city,
+                educationLevel: req.body.educationLevel,
+                urlFotoId: null,
             };
             let user = await req.userUC.createUser(userData);
             if (!user.isSuccess) {

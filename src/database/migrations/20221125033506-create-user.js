@@ -8,25 +8,25 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nama: {
+      name: {
         type: Sequelize.STRING
       },
-      tanggal_lahir: {
+      birth: {
         type: Sequelize.DATE
       },
-      usia: {
+      age: {
         type: Sequelize.STRING
       },
-      no_Whatsapp: {
+      phone: {
         type: Sequelize.STRING
       },
-      asal_Kota: {
+      city: {
         type: Sequelize.STRING
       },
-      pendidikan_terakhir: {
+      educationLevel: {
         type: Sequelize.STRING
       },
-      url_fotoId: {
+      urlFotoId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

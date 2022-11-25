@@ -1,8 +1,8 @@
-const { Url_Foto } = require('../models')
+const { UrlFoto } = require('../models')
 
 class userRepository {
     constructor() {
-        this.UrlFotoModel = Url_Foto;
+        this.UrlFotoModel = UrlFoto;
     }
 
     async getFotoByUserId(userId) {
