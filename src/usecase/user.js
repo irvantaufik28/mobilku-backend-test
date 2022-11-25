@@ -59,8 +59,8 @@ class userUseCase {
     };
 
     const getAge = Math.floor(new Date() - new Date(userData.birth).getTime());
-    const newAge = getAge / 31556926000
-    userData.age = (Math.floor(newAge));
+    const newAge = getAge / 31556926000;
+    userData.age = Math.floor(newAge);
 
     const userResult = await this.userRepository.createUser(userData);
 
@@ -110,7 +110,7 @@ class userUseCase {
   }
 
   async getAge(birthDate) {
-   await Math.floor(new Date() - new Date(birthDate).getTime());
+    await Math.floor(new Date() - new Date(birthDate).getTime());
   }
 }
 
