@@ -11,19 +11,7 @@ class userUseCase {
       data: [],
     };
 
-    const userResult = await this.userRepository.getAllUser({
-      where: filter,
-      include: [
-        {
-          model: City,
-          as: "city",
-        },
-        {
-          model: Media,
-          as: "photo",
-        },
-      ],
-    });
+    const userResult = await this.userRepository.getAllUser();
 
     result.data = userResult;
     return result;

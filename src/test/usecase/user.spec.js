@@ -1,6 +1,6 @@
 require("dotenv").config();
 const UserUseCase = require('../../usecase/user')
-const mockUser = require('../mock/user.mock')
+const mockUser = require('../mock')
 
 let mockUserReturn = {}
 let userUC = null
