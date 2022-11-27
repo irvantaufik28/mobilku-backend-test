@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const multer = require("multer");
-const storage = require("../config/upload-config");
-const upload = multer(storage);
+
+const upload = require("../../libs/mediaHandler");
+
 
 const mediaController = require("../controllers/media");
 

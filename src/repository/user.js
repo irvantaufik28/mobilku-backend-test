@@ -1,17 +1,42 @@
-const { User } = require("../models");
+const { User, City , Media} = require("../models");
 
 class userRepository {
   constructor() {
     this.UserModel = User;
+    this.CityModel = City;
+    this.MediaModel = Media;
   }
 
-  async getAllUser(options) {
-    const result = await this.UserModel.findAll(options);
+  async getAllUser(filter) {
+    const result = await this.UserModel.findAll({
+      where: filter,
+      include: [
+        {
+          model: this.CityModel,
+          as: "city",
+        },
+        {
+          model: this.MediaModel,
+          as: "photo",
+        },
+      ],
+    });
     return result;
   }
 
-  async getUserById(id, options) {
-    const result = await this.UserModel.findByPk(id, options);
+  async getUserById(id) {
+    const result = await this.UserModel.findByPk(id,{
+      include: [
+        {
+          model: City,
+          as: "city",
+        },
+        {
+          model: Media,
+          as: "photo",
+        },
+      ],
+    });
     return result;
   }
 

@@ -1,10 +1,9 @@
-const sharp = require("sharp");
-const path = require("path");
-const fs = require("fs");
-
 class mediaUseCase {
-  constructor(mediaRepository) {
+  constructor(mediaRepository, sharp, path, fs) {
     this.mediaRepository = mediaRepository;
+    this.sharp = sharp;
+    this.path = path;
+    this.fs = fs
   }
 
   async upload(file) {
@@ -16,21 +15,21 @@ class mediaUseCase {
     };
 
     const originalFileName = file.filename;
-    const metadata = await sharp(file.path).metadata();
+    const metadata = await this.sharp(file.path).metadata();
     const fileType = metadata.format;
 
     const randomString = (Math.random() * (100000 - 1) + 1).toString(36).substring(7);
 
     const smallFileName = randomString + "." + fileType;
-    const smallDestinationPath = path.resolve(file.destination, "", smallFileName);
+    const smallDestinationPath = this.path.resolve(file.destination, "", smallFileName);
 
     const largeFileName = randomString + "." + fileType;
-    const largeDestinationPath = path.resolve(file.destination, "", largeFileName);
+    const largeDestinationPath = this.path.resolve(file.destination, "", largeFileName);
 
-    await sharp(file.path).resize(500).jpeg({ quality: 90 }).toFile(smallDestinationPath);
-    await sharp(file.path).resize(1000).jpeg({ quality: 90 }).toFile(largeDestinationPath);
+    await this.sharp(file.path).resize(500).jpeg({ quality: 90 }).toFile(smallDestinationPath);
+    await this.sharp(file.path).resize(1000).jpeg({ quality: 90 }).toFile(largeDestinationPath);
 
-    fs.unlinkSync(file.path);
+    this.fs.unlinkSync(file.path);
 
     const createData = {
       name: originalFileName,

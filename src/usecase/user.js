@@ -1,10 +1,10 @@
-const { City, Media } = require("../models");
 class userUseCase {
-  constructor(userRepository) {
+  constructor(userRepository, func) {
     this.userRepository = userRepository;
+    this.func = func;
   }
 
-  async getAllUser(filter) {
+  async getAllUser() {
     let result = {
       isSuccess: true,
       statusCode: 200,
@@ -25,18 +25,7 @@ class userUseCase {
       data: null,
     };
 
-    const userResult = await this.userRepository.getUserById(id, {
-      include: [
-        {
-          model: City,
-          as: "city",
-        },
-        {
-          model: Media,
-          as: "photo",
-        },
-      ],
-    });
+    const userResult = await this.userRepository.getUserById(id);
 
     if (userResult === null) {
       result.reason = "user not found";
@@ -56,6 +45,8 @@ class userUseCase {
       data: null,
     };
 
+    const userAge = this.func.getAge(userData.dateOfBirth);
+    userData.age = userAge;
     const userResult = await this.userRepository.createUser(userData);
 
     result.isSuccess = true;
@@ -75,6 +66,8 @@ class userUseCase {
     if (getUser === null) {
       result.reason = "user not found";
     }
+    const userAge = this.func.getAge(userData.dateOfBirth);
+    userData.age = userAge;
 
     await this.userRepository.updateUser(userData, id);
 
