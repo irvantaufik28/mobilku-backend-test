@@ -7,6 +7,6 @@ router.get("/", userController.getAllUser);
 router.get("/:id", userController.getUserById);
 // router.get("/:id/testing", userController.getUserByIdTesting);
 router.post("/create", userController.createUser);
-router.put("/", userController.updateUser);
+router.put("/:id", userController.updateUser);
 
 module.exports = router;
