@@ -55,14 +55,14 @@ class userUseCase {
     return result;
   }
 
-  async updateUser(userData, id) {
+  async updateUser(userData, name) {
     let result = {
       isSuccess: false,
       statusCode: 404,
       reason: null,
       data: null,
     };
-    const getUser = await this.userRepository.getUserById(id);
+    const getUser = await this.userRepository.getUserById(name);
     if (getUser === null) {
       result.reason = "user not found";
     }

@@ -19,6 +19,14 @@ module.exports = {
         user.setDataValue("image1", user.photo.smallUrl);
         user.setDataValue("image2", user.photo.largeUrl);
       }
+      if (user.age) {
+        user.setDataValue("usia", user.age)
+      }
+      if (user.education) {
+        user.setDataValue("Pendidikan Terakhir", user.education)
+      }
+
+      
 
       res.status(response.statusCode).json(resData.success(user));
     } catch (e) {
@@ -76,7 +84,7 @@ module.exports = {
 
   updateUser: async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { name } = req.query;
       const userData = {
         name: req.body.name,
         dateOfBirth: new Date(req.body.dateOfBirth),
@@ -88,7 +96,7 @@ module.exports = {
       };
 
       
-      const user = await req.userUC.updateUser(userData, id);
+      const user = await req.userUC.updateUser(userData, name);
       if (!user.isSuccess) {
         return res.status(user.statusCode).json(resData.failed(user.reason));
       }
@@ -98,24 +106,5 @@ module.exports = {
       next(e);
     }
   },
-  getUserByIdTesting: async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const response = await req.userUC.getUserById(id);
-      const user = response.data;
-
-      if (user.city) {
-        user.setDataValue("city", user.city.name);
-      }
-
-      if (user.photo) {
-        user.setDataValue("image1", user.photo.smallUrl);
-        user.setDataValue("image2", user.photo.largeUrl);
-      }
-
-      res.status(response.statusCode).json(resData.success(user));
-    } catch (e) {
-      next(e);
-    }
-  },
+ 
 };

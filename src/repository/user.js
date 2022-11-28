@@ -9,17 +9,17 @@ class userRepository {
 
   async getAllUser() {
     const result = await this.UserModel.findAll({
-      // where: filter,
-      // include: [
-      //   {
-      //     model: this.CityModel,
-      //     as: "city",
-      //   },
-      //   {
-      //     model: this.MediaModel,
-      //     as: "photo",
-      //   },
-      // ],
+      where: filter,
+      include: [
+        {
+          model: this.CityModel,
+          as: "city",
+        },
+        {
+          model: this.MediaModel,
+          as: "photo",
+        },
+      ],
     });
     return result;
   }
@@ -45,9 +45,9 @@ class userRepository {
     return result;
   }
 
-  async updateUser(data, id) {
+  async updateUser(data, name) {
     const result = await this.UserModel.update(data, {
-      where: { id },
+      where: { name },
     });
 
     return result;
