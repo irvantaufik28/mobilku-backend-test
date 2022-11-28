@@ -20,10 +20,10 @@ class mediaUseCase {
 
     const randomString = (Math.random() * (100000 - 1) + 1).toString(36).substring(7);
 
-    const smallFileName = randomString + "." + fileType;
+    const smallFileName = randomString + "_small." + fileType;
     const smallDestinationPath = this.path.resolve(file.destination, "", smallFileName);
 
-    const largeFileName = randomString + "." + fileType;
+    const largeFileName = randomString + "_large." + fileType;
     const largeDestinationPath = this.path.resolve(file.destination, "", largeFileName);
 
     await this.sharp(file.path).resize(500).jpeg({ quality: 90 }).toFile(smallDestinationPath);

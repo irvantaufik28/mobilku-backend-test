@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("Medias", [
+    return queryInterface.bulkInsert("Media", [
       {
         small: "05dmo.png",
         large : "nnq5g.jpeg",
@@ -16,6 +16,6 @@ module.exports = {
     ]);
   },
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete("Medias", null, {});
+    return queryInterface.bulkDelete("Media", null, {});
   },
 };
