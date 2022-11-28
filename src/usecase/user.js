@@ -55,17 +55,17 @@ class userUseCase {
     return result;
   }
 
-  async updateUser(userData, name) {
+  async updateUser(userData, id) {
     let result = {
       isSuccess: false,
       statusCode: 404,
       reason: null,
       data: null,
     };
-    const getUser = await this.userRepository.getUserById(name);
-    if (getUser === null) {
-      result.reason = "user not found";
-    }
+    // const getUser = await this.userRepository.getUserById(name);
+    // if (getUser === null) {
+    //   result.reason = "user not found";
+    // }
     const userAge = this.func.getAge(userData.dateOfBirth);
     userData.age = userAge;
 
