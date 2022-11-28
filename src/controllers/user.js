@@ -3,12 +3,24 @@ const resData = require("../helpers/response");
 module.exports = {
   getUserById: async (req, res, next) => {
     try {
-      let { id } = req.params;
-      let user = await req.userUC.getUserById(id);
-      if (!user.isSuccess) {
-        return res.status(user.statusCode).json(resData.failed(user.reason));
+      const { id } = req.params;
+      const response = await req.userUC.getUserById(id);
+      const user = response.data;
+
+      if (!response.isSuccess) {
+        return res.status(response.statusCode).json(resData.failed(response.reason));
       }
-      res.status(user.statusCode).json(resData.success(user.data));
+
+      if (user.city) {
+        user.setDataValue("city", user.city.name);
+      }
+
+      if (user.photo) {
+        user.setDataValue("image1", user.photo.smallUrl);
+        user.setDataValue("image2", user.photo.largeUrl);
+      }
+
+      res.status(response.statusCode).json(resData.success(user));
     } catch (e) {
       next(e);
     }
@@ -16,11 +28,24 @@ module.exports = {
 
   getAllUser: async (req, res, next) => {
     try {
-      let user = await req.userUC.getAllUser();
-      if (!user.isSuccess) {
-        return res.status(user.statusCode).json(resData.failed(user.reason));
+      const response = await req.userUC.getAllUser();
+      const lists = response.data.map((user) => {
+        if (user.city) {
+          user.setDataValue("city", user.city.name);
+        }
+
+        if (user.photo) {
+          user.setDataValue("image1", user.photo.smallUrl);
+          user.setDataValue("image2", user.photo.largeUrl);
+        }
+
+        return user;
+      });
+
+      if (!response.isSuccess) {
+        return res.status(response.statusCode).json(resData.failed(response.reason));
       }
-      res.status(user.statusCode).json(resData.success(user.data));
+      res.status(response.statusCode).json(lists);
     } catch (e) {
       next(e);
     }
@@ -69,6 +94,26 @@ module.exports = {
       }
 
       res.status(user.statusCode).json(resData.success(user.data));
+    } catch (e) {
+      next(e);
+    }
+  },
+  getUserByIdTesting: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const response = await req.userUC.getUserById(id);
+      const user = response.data;
+
+      if (user.city) {
+        user.setDataValue("city", user.city.name);
+      }
+
+      if (user.photo) {
+        user.setDataValue("image1", user.photo.smallUrl);
+        user.setDataValue("image2", user.photo.largeUrl);
+      }
+
+      res.status(response.statusCode).json(resData.success(user));
     } catch (e) {
       next(e);
     }

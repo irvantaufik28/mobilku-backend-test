@@ -21,6 +21,24 @@ module.exports = (sequelize, DataTypes) => {
       cityId: DataTypes.INTEGER,
       photoId: DataTypes.INTEGER,
       education: DataTypes.STRING,
+      usia: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.age
+        },
+      },
+      mobile: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.whatsapp
+        },
+      },
+      date: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.dateOfBirth
+        },
+      },
     },
     {
       sequelize,

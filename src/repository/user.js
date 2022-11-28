@@ -7,19 +7,19 @@ class userRepository {
     this.MediaModel = Media;
   }
 
-  async getAllUser(filter) {
+  async getAllUser() {
     const result = await this.UserModel.findAll({
-      where: filter,
-      include: [
-        {
-          model: this.CityModel,
-          as: "city",
-        },
-        {
-          model: this.MediaModel,
-          as: "photo",
-        },
-      ],
+      // where: filter,
+      // include: [
+      //   {
+      //     model: this.CityModel,
+      //     as: "city",
+      //   },
+      //   {
+      //     model: this.MediaModel,
+      //     as: "photo",
+      //   },
+      // ],
     });
     return result;
   }
